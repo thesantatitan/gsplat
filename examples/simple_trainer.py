@@ -23,7 +23,7 @@ from utils import AppearanceOptModule, CameraOptModule, knn, rgb_to_sh, set_rand
 
 from gsplat.rendering import rasterization
 from gsplat.strategy import DefaultStrategy
-
+from plyfile import PlyData, PlyElement
 
 @dataclass
 class Config:
@@ -789,7 +789,7 @@ class Runner:
     def save_ply(self, path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
     
-        xyz = self.splats["means3d"].detach().cpu().numpy()
+        xyz = self.splats["means"].detach().cpu().numpy()
         normals = np.zeros_like(xyz)
         f_dc = self.splats["sh0"].detach().transpose(1, 2).flatten(start_dim=1).contiguous().cpu().numpy()
         f_rest = self.splats["shN"].detach().transpose(1, 2).flatten(start_dim=1).contiguous().cpu().numpy()
